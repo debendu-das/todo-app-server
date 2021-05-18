@@ -4,7 +4,6 @@ var path = require('path')
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 var cors = require('cors')
-const mongoose = require('mongoose')
 
 var indexRouter = require('./routes/index')
 var loginRouter = require('./routes/login')
@@ -23,19 +22,6 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(cors())
-
-const CONNECTION_URL =
-  'mongodb+srv://debendu-das:debendu6@to-do-app.skrpa.mongodb.net/To-Do-App?retryWrites=true&w=majority'
-
-mongoose
-  .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    const PORT = process.env.PORT || 5000
-    console.log(`Server Running on Port: http://localhost:${PORT}`)
-  })
-  .catch((error) => console.log(`${error} did not connect`))
-
-mongoose.set('useFindAndModify', false)
 
 app.use('/login', loginRouter)
 app.use('/signUp', signUpRouter)
